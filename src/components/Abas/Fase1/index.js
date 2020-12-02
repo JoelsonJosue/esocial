@@ -1,9 +1,12 @@
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React from 'react';
-import { Button } from 'react-bootstrap'
+import { Button  } from 'react-bootstrap'
 import { Field, ErrorMessage } from 'formik';
 import { Row, Col, FormGroup} from 'react-bootstrap'
+import { TrashFill } from 'react-bootstrap-icons';
 
 export default function Fase1({ values, isValid, Log }) {
   return (
@@ -142,8 +145,21 @@ export default function Fase1({ values, isValid, Log }) {
         </Col>
 
         <Col sm={6}>
-            <h5 style={{color: '#aaa', fontWeight: 'bold', marginTop: '10px'}}>Log:</h5>
-                <div id="log" class="log" dangerouslySetInnerHTML={{ __html: Log }} />
+            <Row>
+                <Col sm={12}>
+                    <h5 style={{color: '#aaa', fontWeight: 'bold', marginTop: '5px'}}>Log:
+                    <a href="javascript:void(0);" style={{float: 'right'}}
+                    title="Limpar Log" 
+                    onClick={() => {document.getElementById('log').innerHTML = ''}}>
+                    <TrashFill color="#aaa" size={25} /></a>
+                    </h5>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={12}>
+                    <div id="log" class="log" dangerouslySetInnerHTML={{ __html: Log }} />
+                </Col>
+            </Row>
         </Col>
     </Row>
     </>

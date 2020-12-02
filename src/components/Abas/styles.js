@@ -11,7 +11,7 @@ export const RowStyle = styled.div`
   }
   .labelRadio{
     margin-right: 15px;
-    margin-top: 15px;
+    margin-top: 10px;
   }
   .labelRadio input {
     cursor: pointer;
@@ -39,5 +39,6 @@ export const RowStyle = styled.div`
   }
   .log p {
     margin-bottom: 0px !important;
+    font-size: 0.7em !important;
   }
 `;
