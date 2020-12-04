@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 export default Yup.object().shape({
+    evento: Yup.string().required('Selecione um evento'),
     tipo: Yup.string().required(),
     //entidade: Yup.string().required("O campo Entidade é obrigatório"),
     entidade: Yup.string().notRequired()

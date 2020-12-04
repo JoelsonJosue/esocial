@@ -9,6 +9,7 @@ import { Row, Col, FormGroup} from 'react-bootstrap'
 import { TrashFill } from 'react-bootstrap-icons';
 
 export default function Fase1({ values, isValid, Log }) {
+
   return (
     <>
     <Row>
@@ -32,15 +33,29 @@ export default function Fase1({ values, isValid, Log }) {
                     <FormGroup>
                     <label htmlFor="evento">Evento: </label>
                     <Field as="select" id="evento" name="evento" className="form-control">
-                        <option value="default">Todos</option>
+                        <option value=""></option>
                         <option value="S1000">S-1000</option>
                         <option value="S1005">S-1005</option>
                         <option value="S1010">S-1010</option>
                         <option value="S1020">S-1020</option>
                         <option value="S1070">S-1070</option>
                     </Field>
+                    <ErrorMessage name="evento">
+                        { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                    </ErrorMessage>
                     </FormGroup>
                 </Col>
+                {values.tipo === '1' && (
+                <Col sm={3} style={{paddingLeft: '0'}}>
+                    <FormGroup>
+                    <label htmlFor="evento">Exclusão: </label>
+                    <Field className="form-control" name="exclusao" as="select">
+                        <option value="false">Não</option>
+                        <option value="true">Sim</option>
+                    </Field>
+                    </FormGroup>
+                </Col>
+                )}
             </Row>
             <Row>
                 <Col sm={6}>

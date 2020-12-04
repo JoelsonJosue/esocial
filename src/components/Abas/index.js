@@ -30,6 +30,10 @@ export default function Abas() {
         entidade: values.entidade,
         codrubr: values.codrubr,
         evento: values.evento,
+        codlotacao: values.codlotacao,
+        tpproc: values.tpproc,
+        nrproc: values.nrproc,
+        exclusao: values.exclusao,
       });
 
       const response = await api.post("esocial/eventos", json, {
@@ -46,7 +50,64 @@ export default function Abas() {
 
               if (evento !== 'S1000' && evento !== 'S1005') {
 
-                appendLog += '<p style="color: red">' + JSON.stringify(obj) + '</p>';
+                  for (var keyOne in obj) {
+                    //appendLog += '<p style="color: red">' + keyOne + '</p>';
+                    for (var keyTwo in obj[keyOne]) {
+                      //appendLog += '<p style="color: red">' + keyTwo + '</p>';
+                      for (var keyThree in obj[keyOne][keyTwo]) {
+                        //appendLog += '<p style="color: red">' + keyThree + '</p>';
+                        if(typeof obj[keyOne][keyTwo][keyThree] === 'object'){
+                          let existeProcessamento = false;
+                          for (var keyFour in obj[keyOne][keyTwo][keyThree]) {
+                            if(keyFour === 'criticas'){
+                              if(typeof obj[keyOne][keyTwo][keyThree]['processamento'] === 'undefined'){
+                                if(obj[keyOne][keyTwo][keyThree][keyFour] !== null){
+                                  appendLog += '<p style="color: red; font-weight: bold;">(NrInsc: ' + keyTwo + ', Código: '+ keyThree +') - Críticas:</p>';
+                                  for(var keyFive in obj[keyOne][keyTwo][keyThree][keyFour]){
+                                    appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo][keyThree][keyFour][keyFive] + '</p>';
+                                  }
+                                }else{
+                                  if(!existeProcessamento){
+                                    appendLog += '<p style="color: green; font-weight: bold;">O evento ' 
+                                    + evento + 
+                                    ' de código ' + keyThree + ' informado foi salvo com sucesso!</p>';
+                                  }
+                                }
+                              }
+                            }else if(keyFour === 'processamento'){
+                              existeProcessamento = true;
+                              appendLog += '<p style="color: green; font-weight: bold;">' + obj[keyOne][keyTwo][keyThree][keyFour] + '</p>';
+                            }
+                            //appendLog += '<p style="color: red">' + keyFour + '</p>';
+                          }
+                        }else{
+                          appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo][keyThree] + '</p>';
+                        }
+            
+                      }
+                      /*if(keyTwo === 'processamento'){
+                        console.log('Entrou');
+                        existeProcessamento = true;
+                        appendLog += '<p style="color: green; font-weight: bold;">' + obj[keyOne][keyTwo] + '</p>';
+                      }else{
+                        if(obj[keyOne][keyTwo] !== null){
+                          appendLog += '<p style="color: red; font-weight: bold;">(NrInsc: ' + keyTwo + ') - Críticas:</p>';
+                          for (var keyThree in obj[keyOne][keyTwo]) {
+                            appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo][keyThree] + '</p>';
+                          }
+                        }else{
+                            //console.log(existeProcessamento);
+                            if(!existeProcessamento){
+                              appendLog += '<p style="color: green; font-weight: bold;">O evento ' 
+                              + evento + 
+                              ' informado foi salvo com sucesso!</p>';
+                            }
+                        }
+                      }*/
+                    }
+                  }
+
+                //appendLog += '<p style="color: red">' + JSON.stringify(obj) + '</p>';
                 /*let i = 1;
                 for (var chave1 in response.data[evento]) {
                   for (var chave2 in response.data[evento][chave1]) {
@@ -72,15 +133,21 @@ export default function Abas() {
                   for (var keyOne in obj) {
                     for (var keyTwo in obj[keyOne]) {
                       if(keyTwo === 'processamento'){
-                        console.log('Entrou');
+                        //console.log('Entrou');
                         existeProcessamento = true;
                         appendLog += '<p style="color: green; font-weight: bold;">' + obj[keyOne][keyTwo] + '</p>';
                       }else{
                         if(obj[keyOne][keyTwo] !== null){
-                          appendLog += '<p style="color: red; font-weight: bold;">(NrInsc: ' + keyTwo + ') - Críticas:</p>';
-                          for (var keyThree in obj[keyOne][keyTwo]) {
-                            appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo][keyThree] + '</p>';
+
+                          if(typeof obj[keyOne][keyTwo] === 'object'){
+                            appendLog += '<p style="color: red; font-weight: bold;">(NrInsc: ' + keyTwo + ') - Críticas:</p>';
+                            for (var keyThree in obj[keyOne][keyTwo]) {
+                              appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo][keyThree] + '</p>';
+                            }
+                          }else{
+                            appendLog += '<p style="color: red;">- ' + obj[keyOne][keyTwo] + '</p>';
                           }
+                          
                         }else{
                             //console.log(existeProcessamento);
                             if(!existeProcessamento){
@@ -172,8 +239,9 @@ export default function Abas() {
         tpproc: '',
         nrproc: '',
         nrinsc: '',
-        evento: 'default',
+        evento: '',
         database: '',
+        exclusao: 'false',
       }}
       validateOnMount
       onSubmit={onSubmit}
