@@ -47,7 +47,7 @@ export default function Abas() {
           if (response.data[evento]) {
 
               const obj = response.data[evento];
-
+              //appendLog += '<p style="color: red">' + JSON.stringify(obj) + '</p>';
               if (evento !== 'S1000' && evento !== 'S1005') {
 
                   for (var keyOne in obj) {
@@ -132,11 +132,13 @@ export default function Abas() {
                   let existeProcessamento = false;
                   for (var keyOne in obj) {
                     for (var keyTwo in obj[keyOne]) {
+                      //console.log('Entrou', Object.keys(obj).length);
                       if(keyTwo === 'processamento'){
-                        //console.log('Entrou');
                         existeProcessamento = true;
-                        appendLog += '<p style="color: green; font-weight: bold;">' + obj[keyOne][keyTwo] + '</p>';
+                        if(Object.keys(obj).length !== 3)
+                          appendLog += '<p style="color: green; font-weight: bold;">' + obj[keyOne][keyTwo] + '</p>';          
                       }else{
+
                         if(obj[keyOne][keyTwo] !== null){
 
                           if(typeof obj[keyOne][keyTwo] === 'object'){
@@ -195,13 +197,14 @@ export default function Abas() {
 
           if (response.data.msg) {
 
-            appendLog += '<p style="color: blue; font-weight: bold;">---------- XML-> (Evento: ' + evento + ') ----------</p>';
+            //appendLog += '<p style="color: blue; font-weight: bold;">---------- XML-> (Evento: ' + evento + ') ----------</p>';
             if (response.data.status) {
               appendLog += '<p style="color: green; font-weight: bold;">' + response.data.msg + '</p>';
+              appendLog += '<p style="color: green; font-weight: bold;">Copie o link do XML e abra no Browser: file:///'+ response.data.url +'</p>';
             } else {
               appendLog += '<p style="color: red">' + response.data.msg + '</p>';
             }
-            appendLog += '<p style="color: blue; font-weight: bold;">---------- FIM  ----------</p>';
+            //appendLog += '<p style="color: blue; font-weight: bold;">---------- FIM  ----------</p>';
 
           } else {
             appendLog += '<p style="color: red">' + response.data + '</p>';
